@@ -31,23 +31,21 @@ function scrape(req, res) {
             }
             else {
                 let json = JSON.parse(body, 2)
-                if (json.tag.media.nodes[0].display_src == undefined){
+                if (json.tag.top_posts.nodes[0].display_src == undefined){
                     let imgURL = [];
-                    res.render('index', {imgurl: json.tag.top_posts.nodes[0].display_src, error: null});
+                    for (i=0; i<json.tag.top_posts.nodes.length; i++) {
+                        imgURL.push(json.tag.top_posts.nodes[i].display_src)
+                    }
+                    res.render('index', {imgurl: imgURL, error: {null});
                     resolve()
                 }
                 else{
                     let imgURL = [];
-                    res.render('index', {imgurl: json.tag.media.nodes[0].display_src, error: null});
+                    for (i=0; i<json.tag.media.nodes.length; i++) {
+                        imgURL.push(json.tag.media.nodes[i].display_src)
+                    }
+                    res.render('index', {imgurl: imgURL, error: null});
                     resolve()
-
-                    // This for loop is to loop through the img url's and put them in the imgURL index
-
-                    // for (i=0; i<json.tag.media.nodes.length; i++) {
-                    //   imgURL.push(json.tag.media.nodes[i].display_src)
-                    // }
-                    // console.log(imgURL)
-
                 }
             }
         });
